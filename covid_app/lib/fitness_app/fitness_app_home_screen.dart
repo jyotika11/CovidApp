@@ -1,11 +1,16 @@
 import 'package:covid_app/fitness_app/models/tabIcon_data.dart';
+import 'package:covid_app/fitness_app/profile/profile_screen.dart';
 import 'package:covid_app/fitness_app/traning/training_screen.dart';
+import 'package:covid_app/services/push_notification_service.dart';
 import 'package:flutter/material.dart';
+import '../get_covid_details.dart';
 import 'bottom_navigation_view/bottom_bar_view.dart';
 import 'fintness_app_theme.dart';
 import 'my_diary/my_diary_screen.dart';
 
 class FitnessAppHomeScreen extends StatefulWidget {
+  const FitnessAppHomeScreen({Key key}) : super(key: key);
+
   @override
   _FitnessAppHomeScreenState createState() => _FitnessAppHomeScreenState();
 }
@@ -22,6 +27,7 @@ class _FitnessAppHomeScreenState extends State<FitnessAppHomeScreen>
 
   @override
   void initState() {
+    // PushNotificationsManager();
     tabIconsList.forEach((TabIconData tab) {
       tab.isSelected = false;
     });
@@ -29,6 +35,7 @@ class _FitnessAppHomeScreenState extends State<FitnessAppHomeScreen>
 
     animationController = AnimationController(
         duration: const Duration(milliseconds: 600), vsync: this);
+
     tabBody = MyDiaryScreen(animationController: animationController);
     super.initState();
   }
@@ -89,7 +96,7 @@ class _FitnessAppHomeScreenState extends State<FitnessAppHomeScreen>
                       MyDiaryScreen(animationController: animationController);
                 });
               });
-            } else if (index == 1 || index == 3) {
+            } else if (index == 1) {
               animationController.reverse().then<dynamic>((data) {
                 if (!mounted) {
                   return;
@@ -97,6 +104,17 @@ class _FitnessAppHomeScreenState extends State<FitnessAppHomeScreen>
                 setState(() {
                   tabBody =
                       TrainingScreen(animationController: animationController);
+                });
+              });
+            }
+            else if (index == 3) {
+              animationController.reverse().then<dynamic>((data) {
+                if (!mounted) {
+                  return;
+                }
+                setState(() {
+                  tabBody =
+                      UpdateProfileScreen(animationController: animationController);
                 });
               });
             }

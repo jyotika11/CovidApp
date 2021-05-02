@@ -1,5 +1,7 @@
 import 'dart:io';
 import 'package:covid_app/app_theme.dart';
+import 'package:covid_app/get_covid_details.dart';
+import 'package:covid_app/services/push_notification_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:covid_app/home_screen.dart';
@@ -8,7 +10,8 @@ import 'package:firebase_core/firebase_core.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  Firebase.initializeApp();
+  await Firebase.initializeApp();
+  await loadCount();
   await SystemChrome.setPreferredOrientations(<DeviceOrientation>[DeviceOrientation.portraitUp, DeviceOrientation.portraitDown])
       .then((_) => runApp(MyApp()));
 }
@@ -24,6 +27,7 @@ class MyApp extends StatelessWidget {
       systemNavigationBarDividerColor: Colors.grey,
       systemNavigationBarIconBrightness: Brightness.dark,
     ));
+    PushNotificationsManager().init();
     return MaterialApp(
       title: 'Flutter UI',
       routes: {
@@ -35,6 +39,7 @@ class MyApp extends StatelessWidget {
         textTheme: AppTheme.textTheme,
         platform: TargetPlatform.iOS,
       ),
+
       home: NavigationHomeScreen(),
     );
   }

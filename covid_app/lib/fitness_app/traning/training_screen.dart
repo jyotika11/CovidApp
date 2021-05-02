@@ -5,7 +5,7 @@ import 'package:covid_app/fitness_app/ui_view/workout_view.dart';
 import 'package:flutter/material.dart';
 
 import '../fintness_app_theme.dart';
-
+import 'package:covid_app/fitness_app/my_diary/my_diary_screen.dart' as diary ;
 class TrainingScreen extends StatefulWidget {
   const TrainingScreen({Key key, this.animationController}) : super(key: key);
 
@@ -207,7 +207,7 @@ class _TrainingScreenState extends State<TrainingScreen>
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
-                                  'Training',
+                                  'Medicines',
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
                                     fontFamily: FitnessAppTheme.fontName,
@@ -215,22 +215,6 @@ class _TrainingScreenState extends State<TrainingScreen>
                                     fontSize: 22 + 6 - 6 * topBarOpacity,
                                     letterSpacing: 1.2,
                                     color: FitnessAppTheme.darkerText,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 38,
-                              width: 38,
-                              child: InkWell(
-                                highlightColor: Colors.transparent,
-                                borderRadius: const BorderRadius.all(
-                                    Radius.circular(32.0)),
-                                onTap: () {},
-                                child: Center(
-                                  child: Icon(
-                                    Icons.keyboard_arrow_left,
-                                    color: FitnessAppTheme.grey,
                                   ),
                                 ),
                               ),
@@ -251,7 +235,7 @@ class _TrainingScreenState extends State<TrainingScreen>
                                     ),
                                   ),
                                   Text(
-                                    '15 May',
+                                    diary.formattedDate,
                                     textAlign: TextAlign.left,
                                     style: TextStyle(
                                       fontFamily: FitnessAppTheme.fontName,
@@ -262,22 +246,6 @@ class _TrainingScreenState extends State<TrainingScreen>
                                     ),
                                   ),
                                 ],
-                              ),
-                            ),
-                            SizedBox(
-                              height: 38,
-                              width: 38,
-                              child: InkWell(
-                                highlightColor: Colors.transparent,
-                                borderRadius: const BorderRadius.all(
-                                    Radius.circular(32.0)),
-                                onTap: () {},
-                                child: Center(
-                                  child: Icon(
-                                    Icons.keyboard_arrow_right,
-                                    color: FitnessAppTheme.grey,
-                                  ),
-                                ),
                               ),
                             ),
                           ],

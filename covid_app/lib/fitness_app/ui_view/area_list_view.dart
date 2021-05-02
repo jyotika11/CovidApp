@@ -50,7 +50,7 @@ class _AreaListViewState extends State<AreaListView>
               aspectRatio: 1.0,
               child: Padding(
                 padding: const EdgeInsets.only(left: 8.0, right: 8),
-                child: GridView(
+                child: ListView(
                   padding: const EdgeInsets.only(
                       left: 16, right: 16, top: 16, bottom: 16),
                   physics: const BouncingScrollPhysics(),
@@ -74,12 +74,12 @@ class _AreaListViewState extends State<AreaListView>
                         animationController: animationController,
                       );
                     },
-                  ),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    mainAxisSpacing: 24.0,
-                    crossAxisSpacing: 24.0,
-                    childAspectRatio: 1.0,
+                  // ),
+                  // gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  //   crossAxisCount: 2,
+                  //   mainAxisSpacing: 24.0,
+                  //   crossAxisSpacing: 24.0,
+                  //   childAspectRatio: 1.0,
                   ),
                 ),
               ),

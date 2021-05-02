@@ -34,7 +34,6 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   login() async {
-    Firebase.initializeApp();
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
 
