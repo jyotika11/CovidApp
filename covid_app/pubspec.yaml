@@ -38,6 +38,11 @@ dependencies:
   cloud_firestore: ^1.0.6
   g_json: ^4.0.0
   firebase_messaging: ^6.0.16
+  google_maps_flutter: ^2.0.3
+  geolocator: ^7.0.3
+  google_place: ^0.4.0
+  dio: ^4.0.0
+  flutter_polyline_points: ^0.2.6
 
 
 dev_dependencies:

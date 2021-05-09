@@ -66,7 +66,7 @@ class TitleView extends StatelessWidget {
                               height: 38,
                               width: 26,
                               child: Icon(
-                                Icons.arrow_forward,
+                                Icons.arrow_downward,
                                 color: FitnessAppTheme.darkText,
                                 size: 18,
                               ),

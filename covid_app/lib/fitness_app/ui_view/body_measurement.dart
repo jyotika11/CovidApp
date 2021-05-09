@@ -1,11 +1,13 @@
 import 'package:covid_app/fitness_app/fintness_app_theme.dart';
+import 'package:covid_app/model/HealthCard.dart';
 import 'package:flutter/material.dart';
 
 class BodyMeasurementView extends StatelessWidget {
   final AnimationController animationController;
   final Animation animation;
+  final HealthCard healthCard;
 
-  const BodyMeasurementView({Key key, this.animationController, this.animation})
+  const BodyMeasurementView({Key key, this.animationController, this.animation, this.healthCard})
       : super(key: key);
 
   @override

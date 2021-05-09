@@ -1,7 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:covid_app/fitness_app/ui_view/area_list_view.dart';
+import 'package:covid_app/fitness_app/ui_view/body_measurement.dart';
 import 'package:covid_app/fitness_app/ui_view/running_view.dart';
 import 'package:covid_app/fitness_app/ui_view/title_view.dart';
 import 'package:covid_app/fitness_app/ui_view/workout_view.dart';
+import 'package:covid_app/model/HealthCard.dart';
+import 'package:covid_app/services/getUserId.dart';
 import 'package:flutter/material.dart';
 
 import '../fintness_app_theme.dart';
@@ -57,50 +61,65 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen>
     super.initState();
   }
 
-  void addAllListData() {
+  Future<List<HealthCard>> fetchHealthCards() async {
+    QuerySnapshot docs = await FirebaseFirestore.instance
+        .collection("Users")
+        .doc(getUserId())
+        .collection("HealthCard")
+        .orderBy('date', descending: true).get();
+
+    List<HealthCard> hc = [];
+
+    docs.docs.forEach((element) {
+      hc.add(HealthCard(
+          bp: element.data()["bp"],
+          pulse: element.data()["pulse"],
+          temp: element.data()["temp"],
+          date: element.data()["date"].toDate(),
+          oxygen: element.data()["oxygen"]
+      ));
+    });
+
+    return hc;
+
+  }
+
+
+  Future<void> addAllListData() async {
     const int count = 5;
 
-    listViews.add(
-      WorkoutView(
-        animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
-            parent: widget.animationController,
-            curve:
-            Interval((1 / count) * 2, 1.0, curve: Curves.fastOutSlowIn))),
-        animationController: widget.animationController,
-      ),
-    );
-    listViews.add(
-      RunningView(
-        animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
-            parent: widget.animationController,
-            curve:
-            Interval((1 / count) * 3, 1.0, curve: Curves.fastOutSlowIn))),
-        animationController: widget.animationController,
-      ),
-    );
+    List<HealthCard> hc = await fetchHealthCards();
+
+    print(hc);
 
     listViews.add(
-      TitleView(
-        titleTxt: 'Area of focus',
-        subTxt: 'more',
-        animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
-            parent: widget.animationController,
-            curve:
-            Interval((1 / count) * 4, 1.0, curve: Curves.fastOutSlowIn))),
-        animationController: widget.animationController,
-      ),
+        BodyMeasurementView(
+          animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
+              parent: widget.animationController,
+              curve:
+              Interval((1 / count) * 5, 1.0, curve: Curves.fastOutSlowIn))),
+          animationController: widget.animationController,
+          healthCard: HealthCard(),
+        )
     );
-
-    listViews.add(
-      AreaListView(
-        mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(
-            CurvedAnimation(
-                parent: widget.animationController,
-                curve: Interval((1 / count) * 5, 1.0,
-                    curve: Curves.fastOutSlowIn))),
-        mainScreenAnimationController: widget.animationController,
-      ),
-    );
+    // listViews.add(
+    //   WorkoutView(
+    //     animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
+    //         parent: widget.animationController,
+    //         curve:
+    //         Interval((1 / count) * 2, 1.0, curve: Curves.fastOutSlowIn))),
+    //     animationController: widget.animationController,
+    //   ),
+    // );
+    // listViews.add(
+    //   RunningView(
+    //     animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
+    //         parent: widget.animationController,
+    //         curve:
+    //         Interval((1 / count) * 3, 1.0, curve: Curves.fastOutSlowIn))),
+    //     animationController: widget.animationController,
+    //   ),
+    // );
   }
 
   Future<bool> getData() async {

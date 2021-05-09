@@ -29,8 +29,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   void initState() {
-    super.initState();
     this.checkAuthentification();
+    super.initState();
   }
 
   login() async {

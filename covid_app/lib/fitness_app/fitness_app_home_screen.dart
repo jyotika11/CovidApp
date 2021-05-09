@@ -1,6 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:covid_app/fitness_app/models/tabIcon_data.dart';
 import 'package:covid_app/fitness_app/profile/profile_screen.dart';
 import 'package:covid_app/fitness_app/traning/training_screen.dart';
+import 'package:covid_app/model/HealthCard.dart';
+import 'package:covid_app/services/getUserId.dart';
 import 'package:covid_app/services/push_notification_service.dart';
 import 'package:flutter/material.dart';
 import '../get_covid_details.dart';
@@ -84,7 +87,177 @@ class _FitnessAppHomeScreenState extends State<FitnessAppHomeScreen>
         ),
         BottomBarView(
           tabIconsList: tabIconsList,
-          addClick: () {},
+          addClick: () {
+            final _formKey = GlobalKey<FormState>();
+            String bp;
+            double oxygen;
+            double pulse;
+            double temp;
+            DateTime date;
+            showModalBottomSheet(
+              context: context,
+              isScrollControlled: true,
+              builder: (BuildContext context) {
+                return StatefulBuilder(
+                    builder: (BuildContext context, StateSetter state) {
+                  return Form(
+                    key: _formKey,
+                    child: SingleChildScrollView(
+                      child: Container(
+                        margin: EdgeInsets.all(10),
+                        child:
+                            Column(mainAxisSize: MainAxisSize.min, children: [
+                          Container(
+                            width: double.infinity,
+                            child: TextFormField(
+                              // autofocus: true,
+                              keyboardType: TextInputType.number,
+                              maxLength: 20,
+                              maxLines: 1,
+                              decoration: InputDecoration(
+                                labelText: 'Blood Pressure',
+                                border: new OutlineInputBorder(
+                                  borderRadius: new BorderRadius.circular(10.0),
+                                ),
+                              ),
+                              key: ValueKey('Blood Pressure'),
+                              validator: (value) {
+                                if (value.isEmpty) {
+                                  // print("empty");
+                                  return 'This field should not be empty';
+                                }
+                                return null;
+                              },
+                              onSaved: (value) {
+                                state(() {
+                                  // print(value);
+                                  bp = value;
+                                });
+                              },
+                            ),
+                          ),
+
+                          Container(
+                            // margin: EdgeInsets.symmetric(horizontal: 5),
+                            width: MediaQuery.of(context).size.width,
+                            child: TextFormField(
+                              keyboardType: TextInputType.number,
+                              maxLength: 15,
+                              maxLines: 1,
+                              decoration: InputDecoration(
+                                labelText: 'Oxygen',
+                                border: new OutlineInputBorder(
+                                  borderRadius: new BorderRadius.circular(10.0),
+                                ),
+                              ),
+                              key: ValueKey('Oxygen'),
+                              validator: (value) {
+                                if (value.isEmpty) {
+                                  return 'This field should not be empty';
+                                }
+                                return null;
+                              },
+                              onSaved: (value) {
+                                state(() {
+                                  oxygen = double.parse(value);
+                                });
+                              },
+                            ),
+                          ),
+                          Container(
+                            // margin: EdgeInsets.symmetric(horizontal: 5),
+                            width: MediaQuery.of(context).size.width,
+                            child: TextFormField(
+                              keyboardType: TextInputType.number,
+                              maxLength: 30,
+                              maxLines: 1,
+                              decoration: InputDecoration(
+                                labelText: 'Pulse',
+                                border: new OutlineInputBorder(
+                                  borderRadius: new BorderRadius.circular(10.0),
+                                ),
+                              ),
+                              key: ValueKey('Pulse'),
+                              validator: (value) {
+                                if (value.isEmpty) {
+                                  return 'Please enter a valid email address.';
+                                }
+                                return null;
+                              },
+                              onSaved: (value) {
+                                state(() {
+                                  pulse = double.parse(value);
+                                });
+                              },
+                            ),
+                          ),
+                          Container(
+                            // margin: EdgeInsets.symmetric(horizontal: 5),
+                            width: MediaQuery.of(context).size.width,
+                            child: TextFormField(
+                              keyboardType: TextInputType.number,
+                              maxLength: 10,
+                              maxLines: 1,
+                              decoration: InputDecoration(
+                                labelText: 'Temperature',
+                                border: new OutlineInputBorder(
+                                  borderRadius: new BorderRadius.circular(10.0),
+                                ),
+                              ),
+                              key: ValueKey('Temperature'),
+                              validator: (value) {
+                                if (value.isEmpty) {
+                                  return 'This field should not be empty';
+                                }
+                                return null;
+                              },
+                              onSaved: (value) {
+                                state(() {
+                                  temp = double.parse(value);
+                                });
+                              },
+                            ),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          FlatButton(
+                            onPressed: () async {
+                              final isValid = _formKey.currentState.validate();
+                              if (isValid) {
+                                _formKey.currentState.save();
+
+                                await FirebaseFirestore.instance
+                                    .collection('Users')
+                                    .doc(getUserId())
+                                    .collection('HealthCard')
+                                    .add(HealthCard(bp: bp,oxygen: oxygen,pulse: pulse,temp: temp, date: DateTime.now()).toMap());
+
+                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                  content: Text("Added Details Successfully"),
+                                  backgroundColor: Colors.green,
+                                ));
+
+                                Navigator.of(context).pop();
+                              }
+                            },
+                            child: Container(
+                                margin: EdgeInsets.symmetric(
+                                    vertical: 10, horizontal: 10),
+                                width: MediaQuery.of(context).size.width / 2,
+                                child: Text(
+                                  'Submit',
+                                  textAlign: TextAlign.center,
+                                )),
+                          )
+                        ]),
+                      ),
+                    ),
+                  );
+                });
+              },
+            );
+          },
           changeIndex: (int index) {
             if (index == 0 || index == 2) {
               animationController.reverse().then<dynamic>((data) {
@@ -103,18 +276,17 @@ class _FitnessAppHomeScreenState extends State<FitnessAppHomeScreen>
                 }
                 setState(() {
                   tabBody =
-                      TrainingScreen(animationController: animationController);
+                      MapScreen();
                 });
               });
-            }
-            else if (index == 3) {
+            } else if (index == 3) {
               animationController.reverse().then<dynamic>((data) {
                 if (!mounted) {
                   return;
                 }
                 setState(() {
-                  tabBody =
-                      UpdateProfileScreen(animationController: animationController);
+                  tabBody = UpdateProfileScreen(
+                      animationController: animationController);
                 });
               });
             }

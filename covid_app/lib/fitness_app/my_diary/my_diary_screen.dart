@@ -1,6 +1,7 @@
 import 'package:covid_app/fitness_app/ui_view/body_measurement.dart';
 import 'package:covid_app/fitness_app/ui_view/glass_view.dart';
-import 'package:covid_app/fitness_app/ui_view/mediterranesn_diet_view.dart';
+import 'package:covid_app/fitness_app/ui_view/india_cases_view.dart';
+import 'package:covid_app/fitness_app/ui_view/telangana_cases_view.dart';
 import 'package:covid_app/fitness_app/ui_view/title_view.dart';
 import 'package:covid_app/fitness_app/fintness_app_theme.dart';
 import 'package:covid_app/fitness_app/my_diary/meals_list_view.dart';
@@ -8,7 +9,6 @@ import 'package:covid_app/fitness_app/my_diary/water_view.dart';
 import 'package:covid_app/get_covid_details.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
 
 var now = new DateTime.now();
 var formatter = new DateFormat('MMMMd');
@@ -18,6 +18,7 @@ class MyDiaryScreen extends StatefulWidget {
   const MyDiaryScreen({Key key, this.animationController}) : super(key: key);
 
   final AnimationController animationController;
+
   @override
   _MyDiaryScreenState createState() => _MyDiaryScreenState();
 }
@@ -68,8 +69,7 @@ class _MyDiaryScreenState extends State<MyDiaryScreen>
 
     listViews.add(
       TitleView(
-        titleTxt: 'Covid Cases',
-        subTxt: 'Details',
+        titleTxt: 'India',
         animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
             parent: widget.animationController,
             curve:
@@ -78,19 +78,17 @@ class _MyDiaryScreenState extends State<MyDiaryScreen>
       ),
     );
     listViews.add(
-      MedicinesView(
+      IndiaCasesView(
         animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
             parent: widget.animationController,
             curve:
                 Interval((1 / count) * 1, 1.0, curve: Curves.fastOutSlowIn))),
         animationController: widget.animationController,
-
       ),
     );
     listViews.add(
       TitleView(
-        titleTxt: 'Meals today',
-        subTxt: 'Customize',
+        titleTxt: 'Telangana',
         animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
             parent: widget.animationController,
             curve:
@@ -98,7 +96,15 @@ class _MyDiaryScreenState extends State<MyDiaryScreen>
         animationController: widget.animationController,
       ),
     );
-
+    listViews.add(
+      TelanganaCasesView(
+        animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
+            parent: widget.animationController,
+            curve:
+            Interval((1 / count) * 1, 1.0, curve: Curves.fastOutSlowIn))),
+        animationController: widget.animationController,
+      ),
+    );
     listViews.add(
       MealsListView(
         mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(
@@ -243,10 +249,7 @@ class _MyDiaryScreenState extends State<MyDiaryScreen>
                   child: Column(
                     children: <Widget>[
                       SizedBox(
-                        height: MediaQuery
-                            .of(context)
-                            .padding
-                            .top,
+                        height: MediaQuery.of(context).padding.top,
                       ),
                       Padding(
                         padding: EdgeInsets.only(

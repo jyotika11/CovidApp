@@ -27,9 +27,6 @@ class PushNotificationsManager {
           print("onResume: $message");
         },
       );
-      // For testing purposes print the Firebase Messaging token
-      String token = await _firebaseMessaging.getToken();
-      print("FirebaseMessaging token: $token");
 
       _initialized = true;
     }

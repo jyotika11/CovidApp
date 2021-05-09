@@ -1,6 +1,9 @@
 import 'package:covid_app/main.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:google_place/google_place.dart';
 import '../fintness_app_theme.dart';
+
 
 class WorkoutView extends StatelessWidget {
   final AnimationController animationController;
@@ -46,17 +49,17 @@ class WorkoutView extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Text(
-                        'Next workout',
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                          fontFamily: FitnessAppTheme.fontName,
-                          fontWeight: FontWeight.normal,
-                          fontSize: 14,
-                          letterSpacing: 0.0,
-                          color: FitnessAppTheme.white,
-                        ),
-                      ),
+                      // Text(
+                      //   'Next workout',
+                      //   textAlign: TextAlign.left,
+                      //   style: TextStyle(
+                      //     fontFamily: FitnessAppTheme.fontName,
+                      //     fontWeight: FontWeight.normal,
+                      //     fontSize: 14,
+                      //     letterSpacing: 0.0,
+                      //     color: FitnessAppTheme.white,
+                      //   ),
+                      // ),
                       Padding(
                         padding: const EdgeInsets.only(top: 8.0),
                         child: Text(

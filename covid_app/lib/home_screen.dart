@@ -1,6 +1,8 @@
 import 'package:covid_app/app_theme.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'fitness_app/fitness_app_home_screen.dart';
 import 'login_screen.dart';
 
 
@@ -39,8 +41,19 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppTheme.white,
-      body: LoginScreen(),
+      body: navigateToHomeScreen(),
     );
+  }
+
+  navigateToHomeScreen() {
+    final FirebaseAuth _auth = FirebaseAuth.instance;
+    _auth.authStateChanges().listen((user) {
+      if (user != null) {
+        Navigator.push(context, MaterialPageRoute(builder: (context) => FitnessAppHomeScreen()));
+      } else {
+        LoginScreen();
+      }
+    });
   }
 
   Widget appBar() {
